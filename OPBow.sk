@@ -1,0 +1,28 @@
+# OP Bow Skript
+# Dev: Haze Henry
+# Version: 1.0
+
+command /opbow <player> <text>:
+    permission: op
+    permission message: "&cInsufficient Permission."
+    trigger:
+        if arg-1 is set:
+            if arg-2 is "on":
+                set {opbow.%player%} to true
+                send "&aSuccessfully turned on OP Bow for %player%."
+            if arg-2 is "off":
+                set {opbow.%player%} to false
+                send "&aSuccessfully turned off OP Bow for %player%."
+        if arg-1 is not set:
+            send "&cSpecify a player." to player
+
+
+on right click with {bow}:
+    if {opbow.%player%} is true:
+        if {bowcooldown.%player%} is true:
+            cancel event
+        else:
+            shoot an arrow
+            set {bowcooldown.%player%} to true
+            wait 0.2 seconds
+            set {bowcooldown.%player%} to false
